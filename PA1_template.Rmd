@@ -7,12 +7,40 @@ output:
 
 
 ## Loading and preprocessing the data
+Load libraries to be used in analysis
+```{r loadLibraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+```
 
 
+Read in the data and view a summary
+```{r loadData}
+allData <- read.csv("activity.csv")
+summary(allData)
+```
+
+Group data by day
+```{r dayData}
+dayData <- allData %>% group_by(date) %>% summarize(sumSteps = sum(steps))
+```
 
 ## What is mean total number of steps taken per day?
 
+Histogram for the total number of steps taken per day
+```{r totalSteps}
+hist(dayData$sumSteps, breaks = 10, col = "blue", main = "Total Number of Steps 
+     per Day", xlab = "Steps")
+```
 
+Calculate the mean and median total number of steps taken per day
+```{r meanMedSteps}
+meanSteps <- mean(dayData$sumSteps, na.rm = TRUE)
+medianSteps <- median(dayData$sumSteps, na.rm = TRUE)
+```
+
+Mean steps per day: `r format(meanSteps, scientific = FALSE, big.mark=",")`  
+Median steps per day: `r format(medianSteps, big.mark=",")`
 
 ## What is the average daily activity pattern?
 
